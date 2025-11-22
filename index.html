@@ -81,13 +81,11 @@
         }
 
         .menu-content {
-            width: 300px;
-            max-width: 80%;
-            height: 100%;
+            width: 250px;
             background: white;
             padding: 20px;
             box-shadow: -4px 0 10px rgba(0, 0, 0, 0.3);
-            overflow-y: auto;
+            height: 100%;
         }
 
         /* Inputs e Botões */
@@ -136,67 +134,9 @@
             transition: background-color 0.3s, box-shadow 0.3s;
         }
 
-        @media (min-width: 640px) {
-            .pictograma {
-                flex: 1 1 calc(33.33% - 8px);
-                max-width: calc(33.33% - 8px);
-                padding: 16px;
-                font-size: 24px;
-            }
-        }
-
         .pictograma:hover {
             background: #dbeafe;
             box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
-        }
-
-        /* Barras de Versão */
-        .barra-versoes {
-            display: flex;
-            justify-content: space-around;
-            gap: 8px;
-        }
-
-        .barra {
-            padding: 12px 8px;
-            border-radius: 10px;
-            cursor: pointer;
-            flex: 1;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            transition: opacity 0.3s;
-            font-size: 14px;
-        }
-
-        .barra.free {
-            background: #10b981;
-        }
-
-        .barra.intermediate {
-            background: #f97316;
-        }
-
-        .barra.premium {
-            background: #ef4444;
-        }
-
-        .barra.active {
-            box-shadow: 0 0 0 4px #2563eb;
-            opacity: 1;
-        }
-
-        /* Gráfico Contido */
-        #graficoContainer {
-            padding: 10px;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            background: #f9fafb;
-            max-width: 100%;
-        }
-
-        #graficoAlertas {
-            max-height: 250px;
         }
     </style>
 </head>
@@ -240,6 +180,18 @@
         </div>
     </div>
 
+    <!-- Menu Lateral -->
+    <div id="menuOverlay" class="menu-overlay">
+        <div class="menu-content">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="#">Opção 1</a></li>
+                <li><a href="#">Opção 2</a></li>
+                <li><a href="#">Opção 3</a></li>
+            </ul>
+        </div>
+    </div>
+
     <script>
         // Função para inicializar a síntese de voz
         function initSpeechSynthesis() {
@@ -252,23 +204,28 @@
 
         // Função para habilitar a voz e iniciar o conteúdo
         function enableVoiceAndStartApp() {
-            // Exibe o conteúdo principal
-            document.getElementById('voiceGate').style.display = 'none';  // Oculta o overlay de voz
-            document.getElementById('mainContentWrapper').style.display = 'block';  // Exibe o conteúdo principal
+            // Esconde o overlay de voz e exibe o conteúdo principal
+            document.getElementById('voiceGate').style.display = 'none';
+            document.getElementById('mainContentWrapper').style.display = 'block';
 
             // Inicializa a síntese de voz
             let msg = new SpeechSynthesisUtterance('Tecla Ultra Avançada está pronta!');
             window.speechSynthesis.speak(msg);
 
-            initSpeechSynthesis();  // Chama a função para garantir que tudo esteja inicializado
+            initSpeechSynthesis(); // Garantir que a síntese de voz esteja ativa
         }
 
-        // Função para alternar o menu hambúrguer
+        // Função para alternar o menu
         function toggleMenu() {
-            alert('Menu foi ativado!');
+            let menuOverlay = document.getElementById('menuOverlay');
+            if (menuOverlay.style.display === 'flex') {
+                menuOverlay.style.display = 'none';
+            } else {
+                menuOverlay.style.display = 'flex';
+            }
         }
 
-        // Inicialização da Síntese de Voz logo que a janela carrega
+        // Inicializa a síntese de voz ao carregar a página
         window.onload = initSpeechSynthesis;
     </script>
 
