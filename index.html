@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="pt">
 
 <head>
@@ -277,9 +277,15 @@
 
         // Função para habilitar a voz e iniciar o conteúdo
         function enableVoiceAndStartApp() {
-            document.getElementById('voiceGate').style.display = 'none';  // Oculta a tela de ativação
+            // Exibe o conteúdo principal
+            document.getElementById('voiceGate').style.display = 'none';  // Oculta o overlay de voz
             document.getElementById('mainContentWrapper').style.display = 'block';  // Exibe o conteúdo principal
-            initSpeechSynthesis();  // Inicializa a síntese de voz
+
+            // Inicializa a síntese de voz
+            let msg = new SpeechSynthesisUtterance('Tecla Ultra Avançada está pronta!');
+            window.speechSynthesis.speak(msg);
+
+            initSpeechSynthesis();  // Chama a função para garantir que tudo esteja inicializado
         }
 
         // Inicialização da Síntese de Voz logo que a janela carrega
@@ -289,3 +295,4 @@
 </body>
 
 </html>
+     
