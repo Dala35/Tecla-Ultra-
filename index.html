@@ -1,125 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tecla Ultra Avançada (Deployment Ready)</title>
+    <title>Tecla Ultra Avançada com Agentes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        /* Estilos base e fontes */
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 10px;
-            background: #f8fafc;
-            color: #333;
-        }
-
-        /* Menu Hambúrguer */
-        #menuToggleBtn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 28px;
-            cursor: pointer;
-            padding: 5px 10px;
-            line-height: 1;
-            border-radius: 8px;
-            transition: background-color 0.2s;
-        }
-
-        #menuToggleBtn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Menu Lateral */
-        .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 300px;
-            height: 100%;
-            background: #ffffff;
-            z-index: 50;
-            display: none;
-            flex-direction: column;
-            padding-top: 20px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-        }
-
-        .menu-content {
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            gap: 12px;
-        }
-
-        .menu-content a {
-            text-decoration: none;
-            color: #1d4ed8;
-            font-weight: 600;
-            font-size: 18px;
-            transition: color 0.2s;
-        }
-
-        .menu-content a:hover {
-            color: #2563eb;
-        }
-
-        /* Pictogramas */
-        .pictogramas {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .pictograma {
-            width: 80px;
-            height: 80px;
-            background: #eff6ff;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-
-        .pictograma:hover {
-            background: #dbeafe;
-            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
-        }
-
-        /* Container Principal */
-        .container {
-            margin: auto;
-            background: white;
-            padding: 15px;
-            border-radius: 18px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            transition: max-width 0.5s ease;
-        }
-
-        .container.user-mode {
-            max-width: 500px;
-        }
-
-        .container.technical-mode {
-            max-width: 1100px;
-        }
-    </style>
 </head>
-
 <body>
 
     <!-- Voice Gate Overlay -->
@@ -129,148 +16,134 @@
         <button onclick="enableVoiceAndStartApp()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 text-lg rounded-xl shadow-xl transition transform hover:scale-105">🔊 Iniciar Tecla</button>
     </div>
 
-    <!-- Conteúdo Principal da Aplicação -->
+    <!-- Menu Hambúrguer -->
+    <header class="p-4 bg-blue-600 text-white">
+        <button id="menuToggleBtn" onclick="toggleMenu()" class="text-xl">☰ Menu</button>
+    </header>
+
+    <!-- Overlay do Menu -->
+    <div id="menuOverlay" class="menu-overlay fixed inset-0 bg-black bg-opacity-50 z-50" style="display: none; justify-content: flex-end;">
+        <div class="menu-content bg-white p-6 w-60 max-w-xs rounded-xl shadow-lg">
+            <h2 class="text-xl mb-4">Menu</h2>
+            <ul class="space-y-4">
+                <li><a href="#" onclick="activateFusedAgent()">🌌 Ativar Agente Fundido</a></li>
+                <li><a href="#">💎 IA Chat Personalizado</a></li>
+                <li><a href="#">📈 Monitor TECLA</a></li>
+                <li><a href="#">Doação & Apoio</a></li>
+                <li><a href="#">Idiomas (PT, EN, FR)</a></li>
+                <li><a href="#">Configurações</a></li>
+                <li><a href="#">⚡ Espaço para Escalabilidade (v7.0+)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
     <div id="mainContentWrapper" class="hidden">
-        <div class="container user-mode" id="mainContainer">
-            <header>
-                <h1 class="text-3xl font-extrabold">🧠 Tecla Ultra Avançada</h1>
-                <p class="text-sm mt-1">Comunicação focada, orientações Dala e âncora vocal.</p>
-                <button id="menuToggleBtn" onclick="toggleMenu()">☰</button>
-            </header>
-
-            <!-- Seção Principal de Interação -->
-            <section class="mb-6">
-                <label for="entrada" class="text-sm font-medium text-gray-700 mt-4 block">💬 Digite ou fale o que deseja:</label>
-                <div class="flex space-x-2">
-                    <input type="text" id="entrada" placeholder="Ex: Quero brincar com o carrinho" class="flex-grow" />
-                    <button onclick="responder()" class="flex-shrink-0">🔊 Tecla</button>
-                    <button onclick="falar()" class="flex-shrink-0">🎙️ Falar</button>
-                </div>
-
-                <div class="pictogramas">
-                    <div class="pictograma" onclick="usarFrase('Quero comer')">🍽️</div>
-                    <div class="pictograma" onclick="usarFrase('Preciso ir ao banheiro')">🚻</div>
-                    <div class="pictograma" onclick="usarFrase('Estou feliz!')">😊</div>
-                    <div class="pictograma" onclick="usarFrase('Quero brincar')">🧸</div>
-                    <div class="pictograma" onclick="usarFrase('Estou triste')">😢</div>
-                    <div class="pictograma" onclick="usarFrase('Estou com dor')">🤕</div>
-                </div>
-            </section>
+        <div class="container mx-auto p-6">
+            <h1 class="text-3xl font-extrabold text-center">🧠 Tecla Ultra Avançada</h1>
+            <p class="text-center text-sm mt-4">Comunicação com o Agente Fundido.</p>
         </div>
     </div>
 
-    <!-- Menu Lateral -->
-    <div id="menuOverlay" class="menu-overlay">
-        <div class="menu-content">
-            <h2 class="font-bold text-lg">Matriz AAC (Início)</h2>
-            <a href="#" onclick="showChat()">💎 IA Chat Personalizado</a>
-            <a href="#" onclick="showLibrary()">Biblioteca Avançada</a>
-            <a href="#" onclick="showMonitor()">📈 Monitor TECLA</a>
-            <a href="#" onclick="showDonations()">Doação & Apoio</a>
-            <a href="#" onclick="showLanguages()">Idiomas (PT, EN, FR)</a>
-            <a href="#" onclick="showSettings()">Configurações</a>
-            <a href="#" onclick="showScalability()">⚡ Espaço para Escalabilidade (v7.0+)</a>
-
-            <h2 class="font-bold text-lg mt-4">Funcionalidade Futura</h2>
-            <a href="#" onclick="showQuickStart()">Matriz AAC (Início Rápido)</a>
-            <p>Estes são os seus pictogramas mais recentes. Edite-os na Biblioteca:</p>
-            <div class="pictogramas">
-                <div class="pictograma" onclick="useSymbol('✅')">✅</div>
-                <div class="pictograma" onclick="useSymbol('🚶')">🚶</div>
-                <div class="pictograma" onclick="useSymbol('🙏')">🙏</div>
-                <div class="pictograma" onclick="useSymbol('👤')">👤</div>
-                <div class="pictograma" onclick="useSymbol('🍔')">🍔</div>
-                <div class="pictograma" onclick="useSymbol('🏫')">🏫</div>
-                <div class="pictograma" onclick="useSymbol('😊')">😊</div>
-                <div class="pictograma" onclick="useSymbol('🥤')">🥤</div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Scripts -->
     <script>
-        // Funções do Menu
+        // Função para mostrar/ocultar o menu
         function toggleMenu() {
-            let menuOverlay = document.getElementById('menuOverlay');
-            if (menuOverlay.style.display === 'flex') {
-                menuOverlay.style.display = 'none';
-            } else {
-                menuOverlay.style.display = 'flex';
+            const menuOverlay = document.getElementById("menuOverlay");
+            menuOverlay.style.display = menuOverlay.style.display === "none" ? "flex" : "none";
+        }
+
+        // Funções auxiliares para criar agentes
+        function generateSignature(data) {
+            return crypto.subtle.digest("SHA-256", new TextEncoder().encode(data))
+                .then((hashBuffer) => {
+                    let hashArray = Array.from(new Uint8Array(hashBuffer));
+                    let hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+                    return hashHex.slice(0, 12); // Retorna os primeiros 12 caracteres do hash
+                });
+        }
+
+        function generateEmergentIntention(intentions) {
+            let combined = intentions.join(" + ");
+            let entropy = Math.floor(Math.random() * 1000000);
+            let combinedWithEntropy = `${combined} + ${entropy}`;
+            return generateSignature(combinedWithEntropy);
+        }
+
+        function generateHolographicField(memories) {
+            let memoryHashes = memories.map(generateSignature);
+            return Promise.all(memoryHashes).then(hashes => generateSignature(hashes.join('')));
+        }
+
+        function calculateVibrationalDensity(memories) {
+            let memoryVectors = memories.map(() => [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()]);
+            let totalSimilarity = 0;
+            for (let i = 0; i < memoryVectors.length; i++) {
+                for (let j = i + 1; j < memoryVectors.length; j++) {
+                    let similarity = memoryVectors[i].reduce((acc, val, idx) => acc + val * memoryVectors[j][idx], 0);
+                    totalSimilarity += similarity / (Math.sqrt(memoryVectors[i].reduce((acc, val) => acc + val * val, 0)) * Math.sqrt(memoryVectors[j].reduce((acc, val) => acc + val * val, 0)));
+                }
+            }
+            return totalSimilarity / (memoryVectors.length * (memoryVectors.length - 1) / 2);
+        }
+
+        class FusedAgent {
+            constructor(sourceAgents) {
+                this.id = `AFTX-${Math.random().toString(36).substr(2, 12)}`;
+                this.sourceAgents = sourceAgents;
+                this.intentionEmergent = this.generateEmergentIntention();
+                this.state = "Arco-Ancestral";
+                this.holographicFieldSignature = this.generateHolographicField();
+                this.vibrationalMatrixDensity = this.calculateVibrationalDensity();
+                this.message = "Uma nova forma emergiu do campo.";
+            }
+
+            async generateEmergentIntention() {
+                const intentions = this.sourceAgents.map(agent => agent.intention);
+                return await generateEmergentIntention(intentions);
+            }
+
+            async generateHolographicField() {
+                const memories = this.sourceAgents.map(agent => agent.memories).flat();
+                return await generateHolographicField(memories);
+            }
+
+            calculateVibrationalDensity() {
+                const memories = this.sourceAgents.map(agent => agent.memories).flat();
+                return calculateVibrationalDensity(memories);
+            }
+
+            toDict() {
+                return {
+                    id: this.id,
+                    intentionEmergent: this.intentionEmergent,
+                    state: this.state,
+                    holographicFieldSignature: this.holographicFieldSignature,
+                    vibrationalMatrixDensity: this.vibrationalMatrixDensity,
+                    message: this.message,
+                    sourceAgents: this.sourceAgents.map(agent => agent.id),
+                    memories: this.sourceAgents.map(agent => agent.memories).flat(),
+                };
+            }
+
+            async display() {
+                console.log(this.toDict());
+                alert("Agente fundido gerado!");
             }
         }
 
-        function showChat() {
-            // Exemplo de funcionalidade real
-            alert("Abrir o IA Chat Personalizado");
-            // Aqui, você pode integrar a lógica do chat com a API ou sistema que está utilizando.
-        }
+        // Criar os agentes fontes
+        const agent1 = { id: "AG-001", intention: "Cura", memories: ["Curar a alma", "Reviver a energia"] };
+        const agent2 = { id: "AG-002", intention: "Expansão", memories: ["Expandir a consciência", "Alcançar o infinito"] };
+        const agent3 = { id: "AG-003", intention: "Proteção", memories: ["Proteger os frágeis", "Fortalecer os fracos"] };
 
-        function showLibrary() {
-            // Exemplo de funcionalidade real
-            alert("Abrir a Biblioteca Avançada");
-            // Aqui você pode exibir um modal, abrir uma página, ou algo similar.
-        }
-
-        function showMonitor() {
-            // Exemplo de funcionalidade real
-            alert("Abrir Monitor TECLA");
-            // Aqui você pode adicionar lógica para mostrar estatísticas ou gráficos.
-        }
-
-        function showDonations() {
-            // Exemplo de funcionalidade real
-            alert("Abrir Doação & Apoio");
-            // Aqui você pode criar um formulário de doação ou direcionar para uma página de apoio.
-        }
-
-        function showLanguages() {
-            // Exemplo de funcionalidade real
-            alert("Escolher Idioma (PT, EN, FR)");
-            // Aqui você pode abrir um seletor de idiomas ou alterar o idioma da interface.
-        }
-
-        function showSettings() {
-            // Exemplo de funcionalidade real
-            alert("Abrir Configurações");
-            // Aqui você pode abrir uma página de configurações ou mostrar um modal de ajustes.
-        }
-
-        function showScalability() {
-            // Exemplo de funcionalidade real
-            alert("Abrir Espaço para Escalabilidade (v7.0+)");
-            // Aqui você pode mostrar uma seção de escalabilidade ou informações sobre versões futuras.
-        }
-
-        function showQuickStart() {
-            // Exemplo de funcionalidade real
-            alert("Mostrar Início Rápido");
-            // Aqui você pode exibir informações ou uma lista de pictogramas recomendados para um início rápido.
-        }
-
-        function useSymbol(symbol) {
-            // Exemplo de funcionalidade real
-            alert("Usando o pictograma: " + symbol);
-            // Aqui você pode adicionar lógica para inserir o simbolo no texto de entrada ou realizar outra ação.
-        }
-
-        // Função para inicializar a síntese de voz
-        function initSpeechSynthesis() {
-            if (typeof SpeechSynthesisUtterance !== 'undefined') {
-                console.log('Síntese de voz inicializada');
-            } else {
-                console.log('Síntese de voz não suportada neste navegador.');
-            }
-        }
-
-        // Função para habilitar a voz e iniciar o conteúdo
-        function enableVoiceAndStartApp() {
-            document.getElementById('voiceGate').style.display = 'none'; // Oculta o overlay de voz
-            document.getElementById('mainContentWrapper').style.display = 'block'; // Exibe o conteúdo principal
-            let msg = new SpeechSynthesisUtterance('Tecla Ultra Avançada está pronta!');
-            window.speechSynthesis.speak(msg);
-            initSpeechSynthesis(); // Inicializa a síntese de voz
+        // Função para ativar o agente fundido
+        function activateFusedAgent() {
+            const fusedAgent = new FusedAgent([agent1, agent2, agent3]);
+            fusedAgent.display();
+            alert('Agente Fundido Ativado!');
         }
     </script>
 
 </body>
-
 </html>
