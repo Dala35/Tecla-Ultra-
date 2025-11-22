@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt">
 
 <head>
@@ -266,40 +266,24 @@
     </div>
 
     <script>
-        // Função para atualizar gráfico
-        function atualizarGrafico() {
-            if (typeof chart === 'undefined' || !document.getElementById('graficoAlertas')) {
-                return;
+        // Função para inicializar a síntese de voz
+        function initSpeechSynthesis() {
+            if (typeof SpeechSynthesisUtterance !== 'undefined') {
+                console.log('Síntese de voz inicializada');
+            } else {
+                console.log('Síntese de voz não suportada neste navegador.');
             }
+        }
 
-            if (!chart) {
-                inicializarGrafico();
-            }
-
-            let cumulativeScore = 0;
-            const labels = [];
-            const data = [];
-            const agora = Date.now();
-
-            // Filtra para logs dentro da JANELA_TEMPO_MS e inverte para processar cronologicamente
-            const logsRecentes = dadosLogs
-                .filter(log => (agora - log.timestamp) <= JANELA_TEMPO_MS)
-                .sort((a, b) => a.timestamp - b.timestamp);
-
-            logsRecentes.forEach((log) => {
-                cumulativeScore += log.score;
-                labels.push(new Date(log.timestamp).toLocaleTimeString());
-                data.push(cumulativeScore);
-            });
-
-            chart.data.labels = labels;
-            chart.data.datasets[0].data = data;
-            chart.update();
+        // Função para habilitar a voz e iniciar o conteúdo
+        function enableVoiceAndStartApp() {
+            document.getElementById('voiceGate').style.display = 'none';  // Oculta a tela de ativação
+            document.getElementById('mainContentWrapper').style.display = 'block';  // Exibe o conteúdo principal
+            initSpeechSynthesis();  // Inicializa a síntese de voz
         }
 
         // Inicialização da Síntese de Voz logo que a janela carrega
         window.onload = initSpeechSynthesis;
-
     </script>
 
 </body>
