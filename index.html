@@ -1,215 +1,514 @@
 <!DOCTYPE html>
-<html lang="pt">
+
+<html lang=”pt”>
+
+
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta charset=”UTF-8”>
+
+    <meta name=”viewport” content=”width=device-width, initial-scale=1.0”>
+
     <title>Tecla Ultra Avançada (Deployment Ready)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <script src=https://cdn.tailwindcss.com></script>
+
+    <script src=https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js></script>
+
+    <link href=https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap rel=”stylesheet”>
+
     <style>
+
         /* Estilos base e fontes */
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 10px;
-            background: #f8fafc;
-            color: #333;
+
+        Body {
+
+            Font-family: ‘Inter’, sans-serif;
+
+            Margin: 0;
+
+            Padding: 10px;
+
+            Background: #f8fafc;
+
+            Color: #333;
+
         }
 
-        /* Container Principal - Transição suave */
-        .container {
-            margin: auto;
-            background: white;
-            padding: 15px;
-            border-radius: 18px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            transition: max-width 0.5s ease;
-        }
+
 
         /* Menu Hambúrguer */
+
         #menuToggleBtn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 28px;
-            cursor: pointer;
-            padding: 5px 10px;
-            line-height: 1;
-            border-radius: 8px;
-            transition: background-color 0.2s;
+
+            Position: absolute;
+
+            Top: 15px;
+
+            Left: 15px;
+
+            Background: none;
+
+            Border: none;
+
+            Color: white;
+
+            Font-size: 28px;
+
+            Cursor: pointer;
+
+            Padding: 5px 10px;
+
+            Line-height: 1;
+
+            Border-radius: 8px;
+
+            Transition: background-color 0.2s;
+
         }
+
+
 
         #menuToggleBtn:hover {
-            background: rgba(255, 255, 255, 0.2);
+
+            Background: rgba(255, 255, 255, 0.2);
+
         }
+
+
 
         /* Menu Lateral */
+
         .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 300px;
-            height: 100%;
-            background: #ffffff;
+
+            Position: fixed;
+
+            Top: 0;
+
+            Left: 0;
+
+            Width: 300px;
+
+            Height: 100%;
+
+            Background: #ffffff;
+
             z-index: 50;
+
             display: none;
+
             flex-direction: column;
+
             padding-top: 20px;
+
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+
             overflow-y: auto;
+
         }
+
+
 
         .menu-content {
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            gap: 12px;
+
+            Display: flex;
+
+            Flex-direction: column;
+
+            Padding: 20px;
+
+            Gap: 12px;
+
         }
+
+
 
         .menu-content a {
-            text-decoration: none;
-            color: #1d4ed8;
-            font-weight: 600;
-            font-size: 18px;
-            transition: color 0.2s;
+
+            Text-decoration: none;
+
+            Color: #1d4ed8;
+
+            Font-weight: 600;
+
+            Font-size: 18px;
+
+            Transition: color 0.2s;
+
         }
+
+
 
         .menu-content a:hover {
-            color: #2563eb;
+
+            Color: #2563eb;
+
         }
+
+
+
+        /* Pictogramas */
 
         .pictogramas {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            padding: 20px;
+
+            Display: flex;
+
+            Flex-wrap: wrap;
+
+            Gap: 12px;
+
+            Justify-content: center;
+
+            Padding: 20px;
+
         }
+
+
 
         .pictograma {
-            width: 80px;
-            height: 80px;
-            background: #eff6ff;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            transition: background-color 0.3s, box-shadow 0.3s;
+
+            Width: 80px;
+
+            Height: 80px;
+
+            Background: #eff6ff;
+
+            Border-radius: 12px;
+
+            Display: flex;
+
+            Align-items: center;
+
+            Justify-content: center;
+
+            Font-size: 24px;
+
+            Cursor: pointer;
+
+            Transition: background-color 0.3s, box-shadow 0.3s;
+
         }
 
+
+
         .pictograma:hover {
-            background: #dbeafe;
-            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+
+            Background: #dbeafe;
+
+            Box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+
         }
+
+
+
+        /* Container Principal */
+
+        .container {
+
+            Margin: auto;
+
+            Background: white;
+
+            Padding: 15px;
+
+            Border-radius: 18px;
+
+            Box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+
+            Transition: max-width 0.5s ease;
+
+        }
+
+
+
+        .container.user-mode {
+
+            Max-width: 500px;
+
+        }
+
+
+
+        .container.technical-mode {
+
+            Max-width: 1100px;
+
+        }
+
     </style>
+
 </head>
+
+
 
 <body>
 
-    <!-- Voice Gate Overlay -->
+<!-- Voice Gate Overlay -->
+
     <div id="voiceGate" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center p-8 text-center">
+
         <h2 class="text-4xl font-black mb-4 text-blue-600">Ativar a Voz da Tecla</h2>
+
         <p class="mb-8 text-gray-700 max-w-sm">O seu navegador requer um clique para permitir o som e a Âncora Vocal. Este é um passo essencial para a proteção da Tecla.</p>
+
         <button onclick="enableVoiceAndStartApp()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 text-lg rounded-xl shadow-xl transition transform hover:scale-105">🔊 Iniciar Tecla</button>
+
     </div>
+
+
 
     <!-- Conteúdo Principal da Aplicação -->
+
     <div id="mainContentWrapper" class="hidden">
+
         <div class="container user-mode" id="mainContainer">
+
             <header>
+
                 <h1 class="text-3xl font-extrabold">🧠 Tecla Ultra Avançada</h1>
+
                 <p class="text-sm mt-1">Comunicação focada, orientações Dala e âncora vocal.</p>
+
                 <button id="menuToggleBtn" onclick="toggleMenu()">☰</button>
+
             </header>
 
+
+
             <!-- Seção Principal de Interação -->
+
             <section class="mb-6">
+
                 <label for="entrada" class="text-sm font-medium text-gray-700 mt-4 block">💬 Digite ou fale o que deseja:</label>
+
                 <div class="flex space-x-2">
+
                     <input type="text" id="entrada" placeholder="Ex: Quero brincar com o carrinho" class="flex-grow" />
+
                     <button onclick="responder()" class="flex-shrink-0">🔊 Tecla</button>
+
                     <button onclick="falar()" class="flex-shrink-0">🎙️ Falar</button>
+
                 </div>
+
+
 
                 <div class="pictogramas">
+
                     <div class="pictograma" onclick="usarFrase('Quero comer')">🍽️</div>
+
                     <div class="pictograma" onclick="usarFrase('Preciso ir ao banheiro')">🚻</div>
+
                     <div class="pictograma" onclick="usarFrase('Estou feliz!')">😊</div>
+
                     <div class="pictograma" onclick="usarFrase('Quero brincar')">🧸</div>
+
                     <div class="pictograma" onclick="usarFrase('Estou triste')">😢</div>
+
                     <div class="pictograma" onclick="usarFrase('Estou com dor')">🤕</div>
+
                 </div>
+
             </section>
+
         </div>
+
     </div>
 
-    <!-- Menu Lateral -->
+<!-- Menu Lateral -->
+
     <div id="menuOverlay" class="menu-overlay">
+
         <div class="menu-content">
+
             <h2 class="font-bold text-lg">Matriz AAC (Início)</h2>
-            <a href="#">💎 IA Chat Personalizado</a>
-            <a href="#">Biblioteca Avançada</a>
-            <a href="#">📈 Monitor TECLA</a>
-            <a href="#">Doação & Apoio</a>
-            <a href="#">Idiomas (PT, EN, FR)</a>
-            <a href="#">Configurações</a>
-            <a href="#">⚡ Espaço para Escalabilidade (v7.0+)</a>
+
+            <a href="#" onclick="showChat()">💎 IA Chat Personalizado</a>
+
+            <a href="#" onclick="showLibrary()">Biblioteca Avançada</a>
+
+            <a href="#" onclick="showMonitor()">📈 Monitor TECLA</a>
+
+            <a href="#" onclick="showDonations()">Doação & Apoio</a>
+
+            <a href="#" onclick="showLanguages()">Idiomas (PT, EN, FR)</a>
+
+            <a href="#" onclick="showSettings()">Configurações</a>
+
+            <a href="#" onclick="showScalability()">⚡ Espaço para Escalabilidade (v7.0+)</a>
+
+
+
             <h2 class="font-bold text-lg mt-4">Funcionalidade Futura</h2>
-            <a href="#">Matriz AAC (Início Rápido)</a>
+
+            <a href="#" onclick="showQuickStart()">Matriz AAC (Início Rápido)</a>
+
             <p>Estes são os seus pictogramas mais recentes. Edite-os na Biblioteca:</p>
+
             <div class="pictogramas">
-                <div class="pictograma">✅</div>
-                <div class="pictograma">🚶</div>
-                <div class="pictograma">🙏</div>
-                <div class="pictograma">👤</div>
-                <div class="pictograma">🍔</div>
-                <div class="pictograma">🏫</div>
-                <div class="pictograma">😊</div>
-                <div class="pictograma">🥤</div>
+
+                <div class="pictograma" onclick="useSymbol('✅')">✅</div>
+
+                <div class="pictograma" onclick="useSymbol('🚶')">🚶</div>
+
+                <div class="pictograma" onclick="useSymbol('🙏')">🙏</div>
+
+                <div class="pictograma" onclick="useSymbol('👤')">👤</div>
+
+                <div class="pictograma" onclick="useSymbol('🍔')">🍔</div>
+
+                <div class="pictograma" onclick="useSymbol('🏫')">🏫</div>
+
+                <div class="pictograma" onclick="useSymbol('😊')">😊</div>
+
+                <div class="pictograma" onclick="useSymbol('🥤')">🥤</div>
+
             </div>
+
         </div>
+
     </div>
 
     <script>
-        // Função para inicializar a síntese de voz
-        function initSpeechSynthesis() {
-            if (typeof SpeechSynthesisUtterance !== 'undefined') {
-                console.log('Síntese de voz inicializada');
+
+        // Funções do Menu
+
+        Function toggleMenu() {
+
+            Let menuOverlay = document.getElementById(‘menuOverlay’);
+
+            If (menuOverlay.style.display === ‘flex’) {
+
+                menuOverlay.style.display = ‘none’;
+
             } else {
-                console.log('Síntese de voz não suportada neste navegador.');
+
+                menuOverlay.style.display = ‘flex’;
+
             }
+
         }
+
+
+
+        Function showChat() {
+
+            Alert(“Abrir o IA Chat Personalizado”);
+
+        }
+
+
+
+        Function showLibrary() {
+
+            Alert(“Abrir a Biblioteca Avançada”);
+
+        }
+
+
+
+        Function showMonitor() {
+
+            Alert(“Abrir Monitor TECLA”);
+
+        }
+
+
+
+        Function showDonations() {
+
+            Alert(“Abrir Doação & Apoio”);
+
+        }
+
+
+
+        Function showLanguages() {
+
+            Alert(“Escolher Idioma (PT, EN, FR)”);
+
+        }
+
+
+
+        Function showSettings() {
+
+            Alert(“Abrir Configurações”);
+
+        }
+
+
+
+        Function showScalability() {
+
+            Alert(“Abrir Espaço para Escalabilidade (v7.0+)”);
+
+        }
+
+
+
+        Function showQuickStart() {
+
+            Alert(“Mostrar Início Rápido”);
+
+        }
+
+
+
+        Function useSymbol(symbol) {
+
+            Alert(“Usando o pictograma: “ + symbol);
+
+        }
+
+
+
+        // Função para inicializar a síntese de voz
+
+        Function initSpeechSynthesis() {
+
+            If (typeof SpeechSynthesisUtterance !== ‘undefined’) {
+
+                Console.log(‘Síntese de voz inicializada’);
+
+            } else {
+
+                Console.log(‘Síntese de voz não suportada neste navegador.’);
+
+            }
+
+        }
+
+
 
         // Função para habilitar a voz e iniciar o conteúdo
-        function enableVoiceAndStartApp() {
-            document.getElementById('voiceGate').style.display = 'none'; // Oculta o overlay de voz
-            document.getElementById('mainContentWrapper').style.display = 'block'; // Exibe o conteúdo principal
-            let msg = new SpeechSynthesisUtterance('Tecla Ultra Avançada está pronta!');
-            window.speechSynthesis.speak(msg);
+
+        Function enableVoiceAndStartApp() {
+
+            Document.getElementById(‘voiceGate’).style.display = ‘none’; // Oculta o overlay de voz
+
+            Document.getElementById(‘mainContentWrapper’).style.display = ‘block’; // Exibe o conteúdo principal
+
+            Let msg = new SpeechSynthesisUtterance(‘Tecla Ultra Avançada está pronta!’);
+
+            Window.speechSynthesis.speak(msg);
+
             initSpeechSynthesis(); // Inicializa a síntese de voz
+
         }
 
-        // Função para alternar o menu
-        function toggleMenu() {
-            let menuOverlay = document.getElementById('menuOverlay');
-            if (menuOverlay.style.display === 'flex') {
-                menuOverlay.style.display = 'none';
-            } else {
-                menuOverlay.style.display = 'flex';
-            }
-        }
-
-        // Inicializa a síntese de voz ao carregar a página
-        window.onload = initSpeechSynthesis;
     </script>
+
+
 
 </body>
 
+
+
 </html>
+
+
+
+
+
