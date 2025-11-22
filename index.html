@@ -28,30 +28,11 @@
             transition: max-width 0.5s ease;
         }
 
-        .container.user-mode {
-            max-width: 500px;
-        }
-
-        .container.technical-mode {
-            max-width: 1100px;
-        }
-
-        header {
-            text-align: center;
-            padding: 15px;
-            background: #1d4ed8;
-            color: white;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-
-        /* Menu Hamburger */
+        /* Menu Hambúrguer */
         #menuToggleBtn {
             position: absolute;
             top: 15px;
-            right: 15px;
+            left: 15px;
             background: none;
             border: none;
             color: white;
@@ -67,70 +48,59 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Modal/Overlay do Menu */
+        /* Menu Lateral */
         .menu-overlay {
             position: fixed;
             top: 0;
-            right: 0;
-            width: 100%;
+            left: 0;
+            width: 300px;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: #ffffff;
             z-index: 50;
             display: none;
-            justify-content: flex-end;
+            flex-direction: column;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
         }
 
         .menu-content {
-            width: 250px;
-            background: white;
+            display: flex;
+            flex-direction: column;
             padding: 20px;
-            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.3);
-            height: 100%;
+            gap: 12px;
         }
 
-        /* Inputs e Botões */
-        select,
-        input[type="text"] {
-            width: 100%;
-            padding: 14px;
-            margin-top: 10px;
-            font-size: 16px;
-            border: 2px solid #ccc;
-            border-radius: 10px;
-            transition: border-color 0.3s;
+        .menu-content a {
+            text-decoration: none;
+            color: #1d4ed8;
+            font-weight: 600;
+            font-size: 18px;
+            transition: color 0.2s;
         }
 
-        button {
-            background: #2563eb;
-            color: white;
-            padding: 12px 20px;
-            font-size: 15px;
-            border: none;
-            border-radius: 10px;
-            margin-top: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.1s;
+        .menu-content a:hover {
+            color: #2563eb;
         }
 
-        /* Pictogramas */
         .pictogramas {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 15px;
+            gap: 12px;
             justify-content: center;
+            padding: 20px;
         }
 
         .pictograma {
-            flex: 1 1 calc(50% - 8px);
-            max-width: calc(50% - 8px);
+            width: 80px;
+            height: 80px;
             background: #eff6ff;
-            padding: 12px;
-            font-size: 20px;
-            text-align: center;
             border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
             cursor: pointer;
-            border: 1px solid #bfdbfe;
             transition: background-color 0.3s, box-shadow 0.3s;
         }
 
@@ -169,12 +139,12 @@
                 </div>
 
                 <div class="pictogramas">
-                    <div class="pictograma" onclick="usarFrase('Quero comer')">🍽️ Comer</div>
-                    <div class="pictograma" onclick="usarFrase('Preciso ir ao banheiro')">🚻 Banheiro</div>
-                    <div class="pictograma" onclick="usarFrase('Estou feliz!')">😊 Feliz</div>
-                    <div class="pictograma" onclick="usarFrase('Quero brincar')">🧸 Brincar</div>
-                    <div class="pictograma" onclick="usarFrase('Estou triste')">😢 Triste</div>
-                    <div class="pictograma" onclick="usarFrase('Estou com dor')">🤕 Dor</div>
+                    <div class="pictograma" onclick="usarFrase('Quero comer')">🍽️</div>
+                    <div class="pictograma" onclick="usarFrase('Preciso ir ao banheiro')">🚻</div>
+                    <div class="pictograma" onclick="usarFrase('Estou feliz!')">😊</div>
+                    <div class="pictograma" onclick="usarFrase('Quero brincar')">🧸</div>
+                    <div class="pictograma" onclick="usarFrase('Estou triste')">😢</div>
+                    <div class="pictograma" onclick="usarFrase('Estou com dor')">🤕</div>
                 </div>
             </section>
         </div>
@@ -183,12 +153,27 @@
     <!-- Menu Lateral -->
     <div id="menuOverlay" class="menu-overlay">
         <div class="menu-content">
-            <h2>Menu</h2>
-            <ul>
-                <li><a href="#">Opção 1</a></li>
-                <li><a href="#">Opção 2</a></li>
-                <li><a href="#">Opção 3</a></li>
-            </ul>
+            <h2 class="font-bold text-lg">Matriz AAC (Início)</h2>
+            <a href="#">💎 IA Chat Personalizado</a>
+            <a href="#">Biblioteca Avançada</a>
+            <a href="#">📈 Monitor TECLA</a>
+            <a href="#">Doação & Apoio</a>
+            <a href="#">Idiomas (PT, EN, FR)</a>
+            <a href="#">Configurações</a>
+            <a href="#">⚡ Espaço para Escalabilidade (v7.0+)</a>
+            <h2 class="font-bold text-lg mt-4">Funcionalidade Futura</h2>
+            <a href="#">Matriz AAC (Início Rápido)</a>
+            <p>Estes são os seus pictogramas mais recentes. Edite-os na Biblioteca:</p>
+            <div class="pictogramas">
+                <div class="pictograma">✅</div>
+                <div class="pictograma">🚶</div>
+                <div class="pictograma">🙏</div>
+                <div class="pictograma">👤</div>
+                <div class="pictograma">🍔</div>
+                <div class="pictograma">🏫</div>
+                <div class="pictograma">😊</div>
+                <div class="pictograma">🥤</div>
+            </div>
         </div>
     </div>
 
@@ -204,15 +189,11 @@
 
         // Função para habilitar a voz e iniciar o conteúdo
         function enableVoiceAndStartApp() {
-            // Esconde o overlay de voz e exibe o conteúdo principal
-            document.getElementById('voiceGate').style.display = 'none';
-            document.getElementById('mainContentWrapper').style.display = 'block';
-
-            // Inicializa a síntese de voz
+            document.getElementById('voiceGate').style.display = 'none'; // Oculta o overlay de voz
+            document.getElementById('mainContentWrapper').style.display = 'block'; // Exibe o conteúdo principal
             let msg = new SpeechSynthesisUtterance('Tecla Ultra Avançada está pronta!');
             window.speechSynthesis.speak(msg);
-
-            initSpeechSynthesis(); // Garantir que a síntese de voz esteja ativa
+            initSpeechSynthesis(); // Inicializa a síntese de voz
         }
 
         // Função para alternar o menu
