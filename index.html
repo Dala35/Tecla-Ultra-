@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecla Ultra Avançada (Deployment Ready)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos base e fontes */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 10px;
+            background: #f8fafc;
+            color: #333;
+        }
+
+        /* Container Principal - Transição suave */
+        .container {
+            margin: auto;
+            background: white;
+            padding: 15px;
+            border-radius: 18px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transition: max-width 0.5s ease;
+        }
+
+        .container.user-mode {
+            max-width: 500px;
+        }
+
+        .container.technical-mode {
+            max-width: 1100px;
+        }
+
+        header {
+            text-align: center;
+            padding: 15px;
+            background: #1d4ed8;
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        /* Menu Hamburger */
+        #menuToggleBtn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 5px 10px;
+            line-height: 1;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        #menuToggleBtn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Modal/Overlay do Menu */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 50;
+            display: none;
+            justify-content: flex-end;
+        }
+
+        .menu-content {
+            width: 300px;
+            max-width: 80%;
+            height: 100%;
+            background: white;
+            padding: 20px;
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+        }
+
+        /* Inputs e Botões */
+        select,
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            padding: 12px 20px;
+            font-size: 15px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        /* Pictogramas */
+        .pictogramas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .pictograma {
+            flex: 1 1 calc(50% - 8px);
+            max-width: calc(50% - 8px);
+            background: #eff6ff;
+            padding: 12px;
+            font-size: 20px;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 1px solid #bfdbfe;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        @media (min-width: 640px) {
+            .pictograma {
+                flex: 1 1 calc(33.33% - 8px);
+                max-width: calc(33.33% - 8px);
+                padding: 16px;
+                font-size: 24px;
+            }
+        }
+
+        .pictograma:hover {
+            background: #dbeafe;
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Barras de Versão */
+        .barra-versoes {
+            display: flex;
+            justify-content: space-around;
+            gap: 8px;
+        }
+
+        .barra {
+            padding: 12px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            transition: opacity 0.3s;
+            font-size: 14px;
+        }
+
+        .barra.free {
+            background: #10b981;
+        }
+
+        .barra.intermediate {
+            background: #f97316;
+        }
+
+        .barra.premium {
+            background: #ef4444;
+        }
+
+        .barra.active {
+            box-shadow: 0 0 0 4px #2563eb;
+            opacity: 1;
+        }
+
+        /* Gráfico Contido */
+        #graficoContainer {
+            padding: 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: #f9fafb;
+            max-width: 100%;
+        }
+
+        #graficoAlertas {
+            max-height: 250px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Voice Gate Overlay -->
+    <div id="voiceGate" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center p-8 text-center">
+        <h2 class="text-4xl font-black mb-4 text-blue-600">Ativar a Voz da Tecla</h2>
+        <p class="mb-8 text-gray-700 max-w-sm">O seu navegador requer um clique para permitir o som e a Âncora Vocal. Este é um passo essencial para a proteção da Tecla.</p>
+        <button onclick="enableVoiceAndStartApp()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 text-lg rounded-xl shadow-xl transition transform hover:scale-105">🔊 Iniciar Tecla</button>
+    </div>
+
+    <!-- Conteúdo Principal da Aplicação -->
+    <div id="mainContentWrapper" class="hidden">
+        <div class="container user-mode" id="mainContainer">
+            <header>
+                <h1 class="text-3xl font-extrabold">🧠 Tecla Ultra Avançada</h1>
+                <p class="text-sm mt-1">Comunicação focada, orientações Dala e âncora vocal.</p>
+                <button id="menuToggleBtn" onclick="toggleMenu()">☰</button>
+            </header>
+
+            <!-- Seção Principal de Interação -->
+            <section class="mb-6">
+                <label for="entrada" class="text-sm font-medium text-gray-700 mt-4 block">💬 Digite ou fale o que deseja:</label>
+                <div class="flex space-x-2">
+                    <input type="text" id="entrada" placeholder="Ex: Quero brincar com o carrinho" class="flex-grow" />
+                    <button onclick="responder()" class="flex-shrink-0">🔊 Tecla</button>
+                    <button onclick="falar()" class="flex-shrink-0">🎙️ Falar</button>
+                </div>
+
+                <div class="pictogramas">
+                    <div class="pictograma" onclick="usarFrase('Quero comer')">🍽️ Comer</div>
+                    <div class="pictograma" onclick="usarFrase('Preciso ir ao banheiro')">🚻 Banheiro</div>
+                    <div class="pictograma" onclick="usarFrase('Estou feliz!')">😊 Feliz</div>
+                    <div class="pictograma" onclick="usarFrase('Quero brincar')">🧸 Brincar</div>
+                    <div class="pictograma" onclick="usarFrase('Estou triste')">😢 Triste</div>
+                    <div class="pictograma" onclick="usarFrase('Estou com dor')">🤕 Dor</div>
+                </div>
+            </section>
+
+            <div class="mt-8 hidden" id="dashboardSection">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">🛠️ Dashboard Técnico e Histórico</h2>
+                <div class="bg-red-50 p-4 rounded-xl border border-red-200 mb-6">
+                    <h3 class="font-bold text-red-700 mb-2">🔑 Chave de API da Gemini (Para Publicação)</h3>
+                    <p class="text-sm text-red-600 mb-3">Se estiver a publicar no GitHub ou noutro ambiente, a Dala (IA) requer a sua chave de API pessoal. Insira-a abaixo para ativar a funcionalidade.</p>
+                    <input type="text" id="api_key_input" placeholder="Cole a sua chave de API da Gemini aqui (Ex: AIza...)" oninput="salvarEstado()">
+                </div>
+
+                <iframe class="w-full h-64 mt-4 border-2 border-blue-600 rounded-xl" id="iframeVersao" src="https://placehold.co/800x250/e0f2fe/1e40af?text=Simulação+Versão+Tecla+GRATUITA"></iframe>
+
+                <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-700">Log de Histórico (Últimas 10)</h3>
+                        <ul id="historicoVersoes" class="p-0 list-none max-h-80 overflow-y-auto"></ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-700">Gráfico de Pontuação Acumulada</h3>
+                        <div id="graficoContainer">
+                            <canvas id="graficoAlertas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para atualizar gráfico
+        function atualizarGrafico() {
+            if (typeof chart === 'undefined' || !document.getElementById('graficoAlertas')) {
+                return;
+            }
+
+            if (!chart) {
+                inicializarGrafico();
+            }
+
+            let cumulativeScore = 0;
+            const labels = [];
+            const data = [];
+            const agora = Date.now();
+
+            // Filtra para logs dentro da JANELA_TEMPO_MS e inverte para processar cronologicamente
+            const logsRecentes = dadosLogs
+                .filter(log => (agora - log.timestamp) <= JANELA_TEMPO_MS)
+                .sort((a, b) => a.timestamp - b.timestamp);
+
+            logsRecentes.forEach((log) => {
+                cumulativeScore += log.score;
+                labels.push(new Date(log.timestamp).toLocaleTimeString());
+                data.push(cumulativeScore);
+            });
+
+            chart.data.labels = labels;
+            chart.data.datasets[0].data = data;
+            chart.update();
+        }
+
+        // Inicialização da Síntese de Voz logo que a janela carrega
+        window.onload = initSpeechSynthesis;
+
+    </script>
+
+</body>
+
+</html>
