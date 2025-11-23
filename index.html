@@ -53,6 +53,15 @@
             menuOverlay.style.display = menuOverlay.style.display === "none" ? "flex" : "none";
         }
 
+        // Função para iniciar a Tecla
+        function enableVoiceAndStartApp() {
+            // Esconde o overlay de voz
+            document.getElementById('voiceGate').style.display = 'none';
+            
+            // Exibe o conteúdo principal
+            document.getElementById('mainContentWrapper').style.display = 'block';
+        }
+
         // Funções auxiliares para criar agentes
         function generateSignature(data) {
             return crypto.subtle.digest("SHA-256", new TextEncoder().encode(data))
@@ -143,6 +152,7 @@
             fusedAgent.display();
             alert('Agente Fundido Ativado!');
         }
+
     </script>
 
 </body>
