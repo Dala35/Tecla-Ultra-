@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -42,6 +42,19 @@
         <div class="container mx-auto p-6">
             <h1 class="text-3xl font-extrabold text-center">🧠 Tecla Ultra Avançada</h1>
             <p class="text-center text-sm mt-4">Comunicação com o Agente Fundido.</p>
+
+            <!-- Seção de Pictogramas -->
+            <section class="mb-6">
+                <label for="entrada" class="text-sm font-medium text-gray-700 mt-4 block">💬 Escolha uma ação:</label>
+                <div class="pictogramas">
+                    <div class="pictograma" onclick="usarFrase('Comer')">🍔 Comer</div>
+                    <div class="pictograma" onclick="usarFrase('Caminhar')">🚶 Caminhar</div>
+                    <div class="pictograma" onclick="usarFrase('Quero')">🙏 Quero</div>
+                    <div class="pictograma" onclick="usarFrase('Eu')">👤 Eu</div>
+                    <div class="pictograma" onclick="usarFrase('Feliz')">😊 Feliz</div>
+                    <div class="pictograma" onclick="usarFrase('Beber')">🥤 Beber</div>
+                </div>
+            </section>
         </div>
     </div>
 
@@ -62,98 +75,64 @@
             document.getElementById('mainContentWrapper').style.display = 'block';
         }
 
-        // Funções auxiliares para criar agentes
-        function generateSignature(data) {
-            return crypto.subtle.digest("SHA-256", new TextEncoder().encode(data))
-                .then((hashBuffer) => {
-                    let hashArray = Array.from(new Uint8Array(hashBuffer));
-                    let hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-                    return hashHex.slice(0, 12); // Retorna os primeiros 12 caracteres do hash
-                });
+        // Interação com os pictogramas
+        let interaçãoHistórico = {
+            "Comer": 0,
+            "Caminhar": 0,
+            "Quero": 0,
+            "Eu": 0,
+            "Feliz": 0,
+            "Beber": 0
+        };
+
+        // Função chamada ao clicar em um pictograma
+        function usarFrase(frase) {
+            interaçãoHistórico[frase] += 1;
+            console.log(`Interação com o pictograma: ${frase}`);
+            feedbackDeAprendizado(frase);
         }
 
-        function generateEmergentIntention(intentions) {
-            let combined = intentions.join(" + ");
-            let entropy = Math.floor(Math.random() * 1000000);
-            let combinedWithEntropy = `${combined} + ${entropy}`;
-            return generateSignature(combinedWithEntropy);
-        }
-
-        function generateHolographicField(memories) {
-            let memoryHashes = memories.map(generateSignature);
-            return Promise.all(memoryHashes).then(hashes => generateSignature(hashes.join('')));
-        }
-
-        function calculateVibrationalDensity(memories) {
-            let memoryVectors = memories.map(() => [Math.random(), Math.random(), Math.random(), Math.random(), Math.random()]);
-            let totalSimilarity = 0;
-            for (let i = 0; i < memoryVectors.length; i++) {
-                for (let j = i + 1; j < memoryVectors.length; j++) {
-                    let similarity = memoryVectors[i].reduce((acc, val, idx) => acc + val * memoryVectors[j][idx], 0);
-                    totalSimilarity += similarity / (Math.sqrt(memoryVectors[i].reduce((acc, val) => acc + val * val, 0)) * Math.sqrt(memoryVectors[j].reduce((acc, val) => acc + val * val, 0)));
-                }
+        // Sistema de Aprendizado Autônomo Simples
+        function feedbackDeAprendizado(frase) {
+            let recompensa = "";
+            if (interaçãoHistórico[frase] > 2) {
+                recompensa = `O agente aprendeu bem! A ação '${frase}' está se tornando uma resposta mais precisa.`;
+            } else {
+                recompensa = `Você clicou no pictograma '${frase}'. Continue praticando para melhorar a resposta do agente.`;
             }
-            return totalSimilarity / (memoryVectors.length * (memoryVectors.length - 1) / 2);
+
+            // Exibindo o feedback
+            alert(recompensa);
         }
 
+        // Exemplo de Agente Fundido
         class FusedAgent {
             constructor(sourceAgents) {
                 this.id = `AFTX-${Math.random().toString(36).substr(2, 12)}`;
                 this.sourceAgents = sourceAgents;
-                this.intentionEmergent = this.generateEmergentIntention();
+                this.intentionEmergent = "Cura e Expansão";
                 this.state = "Arco-Ancestral";
-                this.holographicFieldSignature = this.generateHolographicField();
-                this.vibrationalMatrixDensity = this.calculateVibrationalDensity();
+                this.holographicFieldSignature = "Hash do campo holográfico";
+                this.vibrationalMatrixDensity = 0.5;
                 this.message = "Uma nova forma emergiu do campo.";
             }
 
-            async generateEmergentIntention() {
-                const intentions = this.sourceAgents.map(agent => agent.intention);
-                return await generateEmergentIntention(intentions);
-            }
-
-            async generateHolographicField() {
-                const memories = this.sourceAgents.map(agent => agent.memories).flat();
-                return await generateHolographicField(memories);
-            }
-
-            calculateVibrationalDensity() {
-                const memories = this.sourceAgents.map(agent => agent.memories).flat();
-                return calculateVibrationalDensity(memories);
-            }
-
-            toDict() {
-                return {
-                    id: this.id,
-                    intentionEmergent: this.intentionEmergent,
-                    state: this.state,
-                    holographicFieldSignature: this.holographicFieldSignature,
-                    vibrationalMatrixDensity: this.vibrationalMatrixDensity,
-                    message: this.message,
-                    sourceAgents: this.sourceAgents.map(agent => agent.id),
-                    memories: this.sourceAgents.map(agent => agent.memories).flat(),
-                };
-            }
-
-            async display() {
-                console.log(this.toDict());
-                alert("Agente fundido gerado!");
+            display() {
+                console.log(this);
+                alert('Agente Fundido Ativado!');
             }
         }
 
-        // Criar os agentes fontes
+        // Criando o Agente Fundido
         const agent1 = { id: "AG-001", intention: "Cura", memories: ["Curar a alma", "Reviver a energia"] };
         const agent2 = { id: "AG-002", intention: "Expansão", memories: ["Expandir a consciência", "Alcançar o infinito"] };
         const agent3 = { id: "AG-003", intention: "Proteção", memories: ["Proteger os frágeis", "Fortalecer os fracos"] };
 
-        // Função para ativar o agente fundido
+        // Função para ativar o Agente Fundido
         function activateFusedAgent() {
             const fusedAgent = new FusedAgent([agent1, agent2, agent3]);
             fusedAgent.display();
-            alert('Agente Fundido Ativado!');
         }
-
     </script>
-
 </body>
 </html>
